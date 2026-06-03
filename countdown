@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品发布倒计时</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .countdown-container {max-width: 800px;width: 100%;}
+        .title {font-size: 42px;margin-bottom: 10px;text-shadow: 0 2px 10px rgba(0,0,0,0.2);}
+        .subtitle {font-size: 18px;margin-bottom: 60px;opacity: 0.9;}
+        .countdown {display: flex;justify-content: center;gap: 25px;flex-wrap: wrap;}
+        .time-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px 20px;
+            min-width: 110px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .time {font-size: 50px;font-weight: bold;display: block;}
+        .label {font-size:14px;margin-top:8px;opacity:0.8;}
+        .end-text {font-size:36px;color:#fff;display:none;margin-top:30px;}
+        @media (max-width:600px){
+            .title{font-size:32px;}
+            .time{font-size:36px;}
+            .time-box{min-width:80px;padding:20px 15px;}
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown-container">
+        <h1 class="title">北京西客站支行科技金融全新产品即将发布</h1>
+        <p class="subtitle">敬请期待，开启全新体验</p>
+        <div class="countdown">
+            <div class="time-box"><span class="time" id="days">00</span><span class="label">天</span></div>
+            <div class="time-box"><span class="time" id="hours">00</span><span class="label">时</span></div>
+            <div class="time-box"><span class="time" id="minutes">00</span><span class="label">分</span></div>
+            <div class="time-box"><span class="time" id="seconds">00</span><span class="label">秒</span></div>
+        </div>
+        <h2 class="end-text" id="endText">产品已正式发布！</h2>
+    </div>
+<script>
+const releaseDate = new Date("2026-07-02T10:00:00").getTime();
+let timer;
+function updateCountdown(){
+    const now = new Date().getTime();
+    const distance = releaseDate - now;
+    const days = Math.floor(distance/(1000*60*60*24));
+    const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+    const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+    const seconds = Math.floor((distance%(1000*60))/1000);
+    document.getElementById("days").innerText = String(days).padStart(2,'0');
+    document.getElementById("hours").innerText = String(hours).padStart(2,'0');
+    document.getElementById("minutes").innerText = String(minutes).padStart(2,'0');
+    document.getElementById("seconds").innerText = String(seconds).padStart(2,'0');
+    if(distance<0){
+        clearInterval(timer);
+        document.querySelector(".countdown").style.display="none";
+        document.getElementById("endText").style.display="block";
+    }
+}
+updateCountdown();
+timer = setInterval(updateCountdown,1000);
+</script>
+</body>
+</html>
